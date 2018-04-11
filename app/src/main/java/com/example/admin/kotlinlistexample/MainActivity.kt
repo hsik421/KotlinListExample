@@ -2,6 +2,7 @@ package com.example.admin.kotlinlistexample
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
@@ -12,10 +13,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val adapter: MainRecyclerAdapter = MainRecyclerAdapter(dummyData())
-        recyclerview.layoutManager = LinearLayoutManager(this)
-        recyclerview.adapter = adapter
-        adapter.setOnClickListener { i -> Log.i("hsik","onClick = "+i) }
+        val mainAdapter = MainRecyclerAdapter()
+        recyclerview.apply {
+            adapter = mainAdapter
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            addItemDecoration(DividerItemDecoration(this@MainActivity,LinearLayoutManager.VERTICAL))
+        }
+        mainAdapter.setOnClickListener { i -> Log.i("hsik","onClick = $i") }
+        mainAdapter.addData(dummyData())
     }
 
     fun dummyData(): ArrayList<String>{
