@@ -1,5 +1,6 @@
 package com.example.admin.kotlinlistexample
 
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +10,25 @@ import kotlinx.android.synthetic.main.item_main.view.*
 
 
 open class MainRecyclerAdapter: RecyclerView.Adapter<MainRecyclerAdapter.ViewHolder>() {
-    private var datas: ArrayList<String>? = null
+    private var datas: ArrayList<DummyData>? = null
     var clickListener: OnClickListener? = null
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.item_main_text.text = datas?.get(position)?:"null"
-        holder.itemView.setOnClickListener({ v -> clickListener?.onClick(position)})
+        holder.itemView.item_main_text.text = datas?.get(position)?.title?:"null"
+        if(datas?.get(position)?.isSelect == true){
+            holder.itemView.setBackgroundColor(Color.GRAY)
+        }else{
+            holder.itemView.setBackgroundColor(Color.WHITE)
+        }
+        holder.itemView.setOnClickListener { v ->
+            datas?.get(position)?.isSelect = !(datas?.get(position)?.isSelect?:false)
+            if(datas?.get(position)?.isSelect == true){
+                holder.itemView.setBackgroundColor(Color.GRAY)
+            }else{
+                holder.itemView.setBackgroundColor(Color.WHITE)
+            }
+
+            clickListener?.onClick(position)
+        }
         Glide.with(holder.itemView.context).load("http://www.reactiongifs.com/r/hsk.gif").into(holder.itemView.item_main_img)
     }
 
@@ -30,7 +45,7 @@ open class MainRecyclerAdapter: RecyclerView.Adapter<MainRecyclerAdapter.ViewHol
             }
         }
     }
-    fun addData(datas :ArrayList<String>){
+    fun addData(datas :ArrayList<DummyData>){
         this.datas = datas
         notifyDataSetChanged()
     }

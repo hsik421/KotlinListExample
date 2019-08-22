@@ -23,9 +23,11 @@ class MainActivity : AppCompatActivity() {
         mainAdapter.addData(dummyData())
     }
 
-    fun dummyData(): ArrayList<String>{
-        val datas: ArrayList<String> = ArrayList()
-        (1..50).mapTo(datas) { it.toString() }
+    fun dummyData(): ArrayList<DummyData>{
+        val datas: ArrayList<DummyData> = ArrayList()
+        (1..50).forEach{
+            datas.add(DummyData(it.toString()))
+        }
         return datas
     }
 }
